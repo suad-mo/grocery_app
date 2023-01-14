@@ -15,18 +15,19 @@ class _HomeScreenState extends State<HomeScreen> {
     final themeState = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       body: Center(
-          child: SwitchListTile(
-        title: const Text('Theme'),
-        secondary: Icon(themeState.getDarkTheme
-            ? Icons.dark_mode_outlined
-            : Icons.light_mode_outlined),
-        onChanged: (value) {
-          setState(() {
-            themeState.setDarkTheme = value;
-          });
-        },
-        value: themeState.getDarkTheme,
-      )),
+        child: SwitchListTile(
+          title: const Text('Theme'),
+          secondary: Icon(themeState.getDarkTheme
+              ? Icons.dark_mode_outlined
+              : Icons.light_mode_outlined),
+          onChanged: (value) {
+            setState(() {
+              themeState.setDarkTheme = value;
+            });
+          },
+          value: themeState.getDarkTheme,
+        ),
+      ),
     );
   }
 }
