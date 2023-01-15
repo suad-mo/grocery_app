@@ -56,7 +56,7 @@ class _UserScreenState extends State<UserScreen> {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = (() {
-                              print('My name is pressed');
+                              //print('My name is pressed');
                             })),
                     ],
                   ),
@@ -128,9 +128,11 @@ class _UserScreenState extends State<UserScreen> {
                   value: themeState.getDarkTheme,
                 ),
                 _listTiles(
-                  title: 'Logaut',
+                  title: 'Logout',
                   icon: IconlyBold.logout,
-                  onPressed: () {},
+                  onPressed: () async {
+                    await _showLogoutDialog(color: color);
+                  },
                   color: color,
                 ),
               ],
@@ -161,9 +163,61 @@ class _UserScreenState extends State<UserScreen> {
             actions: [
               TextButton(
                   onPressed: (() {
-                    print(_addressTextController.text);
+                    //print(_addressTextController.text);
                   }),
                   child: const Text('Update'))
+            ],
+          );
+        });
+  }
+
+  Future<void> _showLogoutDialog({required Color color}) async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Row(children: [
+              Image.asset(
+                'assets/images/warning-sign.png',
+                height: 20,
+                width: 20,
+                fit: BoxFit.fill,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              TextWidget(
+                text: 'Sign out',
+                color: color,
+                textSize: 18,
+                isTitle: true,
+              )
+            ]),
+            content: const Text('Do you wonna sign out'),
+            actions: [
+              TextButton(
+                onPressed: (() {
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  }
+                }),
+                child: const TextWidget(
+                  text: 'Cancel',
+                  color: Colors.cyan,
+                  textSize: 18,
+                ),
+              ),
+              TextButton(
+                onPressed: (() {
+                  //print('OK');
+                }),
+                child: const TextWidget(
+                  text: 'OK',
+                  color: Colors.red,
+                  textSize: 18,
+                  isTitle: true,
+                ),
+              ),
             ],
           );
         });

@@ -32,6 +32,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   @override
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
+    // ignore: no_leading_underscores_for_local_identifiers
     bool _isDark = themeState.getDarkTheme;
     return Scaffold(
       // appBar: AppBar(
