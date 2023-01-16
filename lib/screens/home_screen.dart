@@ -1,9 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:grocery_app/provider/dark_theme_provider.dart';
 import 'package:grocery_app/services/utils.dart';
 import 'package:grocery_app/widgets/on_sale_widgwt.dart';
-import 'package:provider/provider.dart';
+import 'package:grocery_app/widgets/text_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -51,7 +50,26 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          const OnSaleWidget(),
+          const SizedBox(height: 6),
+          TextButton(
+            onPressed: () {},
+            child: const TextWidget(
+              text: 'View All',
+              color: Colors.blue,
+              textSize: 20,
+            ),
+          ),
+          const SizedBox(height: 6),
+          SizedBox(
+            height: size.height * 0.24,
+            child: ListView.builder(
+              itemCount: 10,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return const OnSaleWidget();
+              },
+            ),
+          ),
         ],
       ),
     );
