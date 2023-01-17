@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/inner_screens/on_sale_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/btm_bar.dart';
@@ -46,6 +47,9 @@ class _MyAppState extends State<MyApp> {
           title: 'Flutter Demo',
           theme: Styles.themeData(themeProvider.getDarkTheme, context),
           home: const BottomBarScreen(),
+          routes: {
+            OnSaleScreen.routeName: (ctx) => const OnSaleScreen(),
+          },
         );
       }),
     );
