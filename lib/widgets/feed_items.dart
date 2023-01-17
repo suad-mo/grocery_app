@@ -1,9 +1,9 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:grocery_app/widgets/heart_btn.dart';
-import 'package:grocery_app/widgets/price_widget.dart';
-import 'package:grocery_app/widgets/text_widget.dart';
+import 'price_widget.dart';
+import 'text_widget.dart';
+import 'heart_btn.dart';
 
 import '../services/utils.dart';
 
@@ -60,7 +60,6 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                       textSize: 20,
                       isTitle: true,
                     ),
-                    // const SizedBox(width: 5),
                     const HeartBTN(),
                   ],
                 ),
@@ -70,9 +69,18 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const PriceWidget(),
+                    Flexible(
+                      flex: 4,
+                      child: PriceWidget(
+                        salePrice: 2.99,
+                        price: 5.9,
+                        textPrice: _quantityTextController.text,
+                        isOnSale: true,
+                      ),
+                    ),
                     const SizedBox(width: 8),
                     Flexible(
+                      // flex: 1,
                       child: Row(
                         children: [
                           FittedBox(
@@ -88,6 +96,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                     ),
                     const SizedBox(width: 5),
                     Flexible(
+                      flex: 1,
                       child: TextFormField(
                         controller: _quantityTextController,
                         key: const ValueKey('10'),
