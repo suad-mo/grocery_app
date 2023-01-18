@@ -11,7 +11,7 @@ class OnSaleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool _isEmpty = false;
+    bool isEmpty = false;
     final Utils utils = Utils(context);
     final Color color = utils.color;
     Size size = utils.getScreenSize;
@@ -36,7 +36,7 @@ class OnSaleScreen extends StatelessWidget {
           isTitle: true,
         ),
       ),
-      body: _isEmpty
+      body: isEmpty
           ? Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

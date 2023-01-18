@@ -80,14 +80,14 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                     ),
                     const SizedBox(width: 8),
                     Flexible(
-                      // flex: 1,
+                      flex: 1,
                       child: Row(
                         children: [
                           FittedBox(
                             child: TextWidget(
                               text: 'KG',
                               color: color,
-                              textSize: 18,
+                              textSize: 12,
                               isTitle: true,
                             ),
                           )
@@ -96,7 +96,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                     ),
                     const SizedBox(width: 5),
                     Flexible(
-                      flex: 1,
+                      flex: 2,
                       child: TextFormField(
                         controller: _quantityTextController,
                         key: const ValueKey('10'),
