@@ -1,6 +1,8 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grocery_app/inner_screens/product_details.dart';
+import '../services/global_methods.dart';
 import 'price_widget.dart';
 import 'text_widget.dart';
 import 'heart_btn.dart';
@@ -39,7 +41,12 @@ class _FeedsWidgetState extends State<FeedsWidget> {
         borderRadius: BorderRadius.circular(12),
         color: Theme.of(context).cardColor,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            GlobalMethod.navigateTo(
+              ctx: context,
+              routeName: ProductDetails.routeName,
+            );
+          },
           borderRadius: BorderRadius.circular(12),
           child: Column(
             children: [
@@ -78,19 +85,19 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                         isOnSale: true,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 3),
                     Flexible(
-                      flex: 1,
+                      flex: 3,
                       child: Row(
                         children: [
                           FittedBox(
                             child: TextWidget(
                               text: 'KG',
                               color: color,
-                              textSize: 12,
+                              textSize: 18,
                               isTitle: true,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
