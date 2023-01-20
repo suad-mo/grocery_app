@@ -137,7 +137,10 @@ class _CartWidgetState extends State<CartWidget> {
                           )
                         ],
                       ),
-                    )
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
                   ],
                 ),
               ),
@@ -166,10 +169,11 @@ class _CartWidgetState extends State<CartWidget> {
               fct();
             },
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6.0),
               child: Icon(
                 icon,
                 color: Colors.white,
+                size: 20,
               ),
             ),
           ),
