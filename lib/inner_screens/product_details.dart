@@ -126,8 +126,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 4, horizontal: 8),
                           decoration: BoxDecoration(
-                              color: const Color.fromRGBO(63, 200, 101, 1),
-                              borderRadius: BorderRadius.circular(5)),
+                            color: const Color.fromRGBO(63, 200, 101, 1),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                           child: const TextWidget(
                             text: 'Free delivery',
                             color: Colors.white,
@@ -207,7 +208,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 30),
+                      vertical: 20,
+                      horizontal: 30,
+                    ),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius: const BorderRadius.only(

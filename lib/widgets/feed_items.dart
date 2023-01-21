@@ -85,51 +85,55 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                         isOnSale: true,
                       ),
                     ),
-                    const SizedBox(width: 3),
+                    const SizedBox(width: 8),
                     Flexible(
-                      flex: 3,
+                      // flex: 1,
                       child: Row(
                         children: [
-                          FittedBox(
-                            child: TextWidget(
-                              text: 'KG',
-                              color: color,
-                              textSize: 18,
-                              isTitle: true,
+                          Flexible(
+                            flex: 3,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: TextWidget(
+                                text: 'KG',
+                                color: color,
+                                textSize: 18,
+                                isTitle: true,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Flexible(
+                            flex: 2,
+                            child: TextFormField(
+                              controller: _quantityTextController,
+                              key: const ValueKey('10'),
+                              style: TextStyle(
+                                color: color,
+                                fontSize: 18,
+                              ),
+                              keyboardType: TextInputType.number,
+                              maxLines: 1,
+                              enabled: true,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp('[0-9.]'),
+                                ),
+                              ],
+                              onChanged: (value) {
+                                setState(() {
+                                  if (value.isEmpty) {
+                                    _quantityTextController.text = '1';
+                                  } else {
+                                    // total = usedPrice *
+                                    //     int.parse(_quantityTextController.text);
+                                  }
+                                });
+                              },
+                              onSaved: (value) {},
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Flexible(
-                      flex: 2,
-                      child: TextFormField(
-                        controller: _quantityTextController,
-                        key: const ValueKey('10'),
-                        style: TextStyle(
-                          color: color,
-                          fontSize: 18,
-                        ),
-                        keyboardType: TextInputType.number,
-                        maxLines: 1,
-                        enabled: true,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                            RegExp('[0-9.]'),
-                          ),
-                        ],
-                        onChanged: (value) {
-                          setState(() {
-                            if (value.isEmpty) {
-                              _quantityTextController.text = '1';
-                            } else {
-                              // total = usedPrice *
-                              //     int.parse(_quantityTextController.text);
-                            }
-                          });
-                        },
-                        onSaved: (value) {},
                       ),
                     ),
                   ],
