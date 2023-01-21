@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/inner_screens/feeds_screen.dart';
 import 'package:grocery_app/inner_screens/on_sale_screen.dart';
 import 'package:grocery_app/inner_screens/product_details.dart';
+import 'package:grocery_app/screens/wishlist/wishlist_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/btm_bar.dart';
@@ -53,6 +54,7 @@ class _MyAppState extends State<MyApp> {
             OnSaleScreen.routeName: (ctx) => const OnSaleScreen(),
             FeedsScreen.routeName: (ctx) => const FeedsScreen(),
             ProductDetails.routeName: (ctx) => const ProductDetails(),
+            WishlistScreen.routeName: (ctx) => const WishlistScreen(),
           },
         );
       }),

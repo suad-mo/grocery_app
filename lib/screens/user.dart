@@ -1,10 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/screens/wishlist/wishlist_screen.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/dark_theme_provider.dart';
+import '../services/global_methods.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
@@ -93,7 +95,12 @@ class _UserScreenState extends State<UserScreen> {
                 _listTiles(
                   title: 'Wishlist',
                   icon: IconlyBold.heart,
-                  onPressed: () {},
+                  onPressed: () {
+                    GlobalMethod.navigateTo(
+                      ctx: context,
+                      routeName: WishlistScreen.routeName,
+                    );
+                  },
                   color: color,
                 ),
                 _listTiles(
