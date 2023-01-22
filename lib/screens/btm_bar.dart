@@ -1,8 +1,10 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/screens/categories.dart';
 import 'package:grocery_app/screens/home_screen.dart';
 import 'package:grocery_app/screens/user.dart';
+import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/dark_theme_provider.dart';
@@ -61,7 +63,18 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
             label: 'Categories',
           ),
           BottomNavigationBarItem(
-            icon: Icon(_selectedIndex == 2 ? IconlyBold.buy : IconlyLight.buy),
+            icon: Badge(
+              toAnimate: true,
+              shape: BadgeShape.circle,
+              badgeColor: Colors.blue,
+              borderRadius: BorderRadius.circular(8),
+              position: BadgePosition.topEnd(top: -7, end: -7),
+              badgeContent: const TextWidget(
+                  text: '1', color: Colors.white, textSize: 15),
+              //const Text('1', style: TextStyle(color: Colors.white)),
+              child:
+                  Icon(_selectedIndex == 2 ? IconlyBold.buy : IconlyLight.buy),
+            ),
             label: 'Cart',
           ),
           BottomNavigationBarItem(
