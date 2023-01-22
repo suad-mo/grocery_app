@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/screens/orders/orders_screen.dart';
 import 'package:grocery_app/screens/wishlist/wishlist_screen.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
@@ -89,7 +90,12 @@ class _UserScreenState extends State<UserScreen> {
                 _listTiles(
                   title: 'Orders',
                   icon: IconlyBold.bag,
-                  onPressed: () {},
+                  onPressed: () {
+                    GlobalMethod.navigateTo(
+                      ctx: context,
+                      routeName: OrdersScreen.routeName,
+                    );
+                  },
                   color: color,
                 ),
                 _listTiles(
