@@ -5,6 +5,7 @@ import 'package:grocery_app/screens/wishlist/wishlist_widget.dart';
 import 'package:grocery_app/widgets/back_widget.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 
+import '../../services/global_methods.dart';
 import '../../services/utils.dart';
 
 class WishlistScreen extends StatelessWidget {
@@ -30,7 +31,14 @@ class WishlistScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              GlobalMethod.warningDialog(
+                title: 'Empty your wishlist?',
+                subtitle: 'Are your sure??',
+                fct: () {},
+                context: context,
+              );
+            },
             icon: Icon(
               IconlyBroken.delete,
               color: color,

@@ -137,8 +137,13 @@ class _UserScreenState extends State<UserScreen> {
                 _listTiles(
                   title: 'Logout',
                   icon: IconlyBold.logout,
-                  onPressed: () async {
-                    await _showLogoutDialog(color: color);
+                  onPressed: () {
+                    GlobalMethod.warningDialog(
+                      title: 'Signout',
+                      subtitle: 'Do you wanna sign out?',
+                      fct: () {},
+                      context: context,
+                    );
                   },
                   color: color,
                 ),
@@ -178,57 +183,57 @@ class _UserScreenState extends State<UserScreen> {
         });
   }
 
-  Future<void> _showLogoutDialog({required Color color}) async {
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Row(children: [
-              Image.asset(
-                'assets/images/warning-sign.png',
-                height: 20,
-                width: 20,
-                fit: BoxFit.fill,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              TextWidget(
-                text: 'Sign out',
-                color: color,
-                textSize: 18,
-                isTitle: true,
-              )
-            ]),
-            content: const Text('Do you wonna sign out'),
-            actions: [
-              TextButton(
-                onPressed: (() {
-                  if (Navigator.canPop(context)) {
-                    Navigator.pop(context);
-                  }
-                }),
-                child: const TextWidget(
-                  text: 'Cancel',
-                  color: Colors.cyan,
-                  textSize: 18,
-                ),
-              ),
-              TextButton(
-                onPressed: (() {
-                  //print('OK');
-                }),
-                child: const TextWidget(
-                  text: 'OK',
-                  color: Colors.red,
-                  textSize: 18,
-                  isTitle: true,
-                ),
-              ),
-            ],
-          );
-        });
-  }
+  // Future<void> _showLogoutDialog({required Color color}) async {
+  //   await showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           title: Row(children: [
+  //             Image.asset(
+  //               'assets/images/warning-sign.png',
+  //               height: 20,
+  //               width: 20,
+  //               fit: BoxFit.fill,
+  //             ),
+  //             const SizedBox(
+  //               width: 10,
+  //             ),
+  //             TextWidget(
+  //               text: 'Sign out',
+  //               color: color,
+  //               textSize: 18,
+  //               isTitle: true,
+  //             )
+  //           ]),
+  //           content: const Text('Do you wonna sign out'),
+  //           actions: [
+  //             TextButton(
+  //               onPressed: (() {
+  //                 if (Navigator.canPop(context)) {
+  //                   Navigator.pop(context);
+  //                 }
+  //               }),
+  //               child: const TextWidget(
+  //                 text: 'Cancel',
+  //                 color: Colors.cyan,
+  //                 textSize: 18,
+  //               ),
+  //             ),
+  //             TextButton(
+  //               onPressed: (() {
+  //                 //print('OK');
+  //               }),
+  //               child: const TextWidget(
+  //                 text: 'OK',
+  //                 color: Colors.red,
+  //                 textSize: 18,
+  //                 isTitle: true,
+  //               ),
+  //             ),
+  //           ],
+  //         );
+  //       });
+  // }
 
   Widget _listTiles({
     required String title,
