@@ -3,6 +3,7 @@ import 'package:grocery_app/inner_screens/feeds_screen.dart';
 import 'package:grocery_app/inner_screens/on_sale_screen.dart';
 import 'package:grocery_app/inner_screens/product_details.dart';
 import 'package:grocery_app/screens/auth/login.dart';
+import 'package:grocery_app/screens/auth/register.dart';
 import 'package:grocery_app/screens/orders/orders_screen.dart';
 import 'package:grocery_app/screens/viewed_recently/viewed_recently.dart';
 import 'package:grocery_app/screens/wishlist/wishlist_screen.dart';
@@ -62,6 +63,8 @@ class _MyAppState extends State<MyApp> {
             OrdersScreen.routeName: (ctx) => const OrdersScreen(),
             ViewedRecentlyScreen.routeName: (ctx) =>
                 const ViewedRecentlyScreen(),
+            RegisterScreen.routeName: (ctx) => const RegisterScreen(),
+            LoginScreen.routeName: (ctx) => const LoginScreen(),
           },
         );
       }),
