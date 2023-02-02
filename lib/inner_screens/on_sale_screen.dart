@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/widgets/back_widget.dart';
+import 'package:grocery_app/widgets/empty_products_widget.dart';
 import 'package:grocery_app/widgets/on_sale_widgwt.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
@@ -34,27 +35,8 @@ class OnSaleScreen extends StatelessWidget {
         ),
       ),
       body: productOnSale.isEmpty
-          ? Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Image.asset('assets/images/box.png'),
-                    ),
-                    Text(
-                      'No products on sale yet, \nStay tuned',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: color,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+          ? const EmptyProductsWidget(
+              text: 'No products on sale yet, \nStay tuned',
             )
           : GridView.count(
               // shrinkWrap: true,

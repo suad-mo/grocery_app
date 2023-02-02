@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+// import 'package:grocery_app/screens/categories.dart';
 import 'package:provider/provider.dart';
 
+import '../inner_screens/cat_scren.dart';
 import 'text_widget.dart';
 import '../provider/dark_theme_provider.dart';
 
@@ -22,6 +24,11 @@ class CategoriesWidget extends StatelessWidget {
     return InkWell(
       onTap: () {
         //print('Categories print...');
+        Navigator.pushNamed(
+          context,
+          CategoryScreen.routeName,
+          arguments: catText,
+        );
       },
       child: Container(
         // height: _screenWidth * 0.6,
