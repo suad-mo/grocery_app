@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../inner_screens/product_details.dart';
 import '../models/products_model.dart';
+import '../providers/cart_provider.dart';
 import '../services/global_methods.dart';
 
 class OnSaleWidget extends StatefulWidget {
@@ -25,6 +26,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
     final theme = Utils(context).getTheme;
     Size size = Utils(context).getScreenSize;
     final productModel = Provider.of<ProductModel>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -70,7 +72,12 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                         Row(
                           children: [
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                cartProvider.addProductsToCart(
+                                  prodctId: productModel.id,
+                                  quantity: 1,
+                                );
+                              },
                               child: Icon(
                                 IconlyLight.bag2,
                                 size: 22,

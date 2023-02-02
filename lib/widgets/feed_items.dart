@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grocery_app/inner_screens/product_details.dart';
 import 'package:grocery_app/models/products_model.dart';
+import 'package:grocery_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 import '../providers/products_provider.dart';
 import '../services/global_methods.dart';
@@ -44,6 +45,8 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).color;
     final productModel = Provider.of<ProductModel>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
+
     // List<ProductModel> allProducts = productProvider.getProducts;
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -165,7 +168,12 @@ class _FeedsWidgetState extends State<FeedsWidget> {
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    cartProvider.addProductsToCart(
+                      prodctId: productModel.id,
+                      quantity: int.parse(_quantityTextController.text),
+                    );
+                  },
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Theme.of(context).cardColor),
