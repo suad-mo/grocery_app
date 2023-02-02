@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/products_provider.dart';
 import '../widgets/heart_btn.dart';
 import '../widgets/text_widget.dart';
 
@@ -31,7 +33,13 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).color;
-
+    final productProvider = Provider.of<ProductsProvider>(context);
+    final productId = ModalRoute.of(context)!.settings.arguments as String;
+    final getCurrProduct = productProvider.findProdById(productId);
+    double usedPrice = getCurrProduct.isOnSale
+        ? getCurrProduct.salePrice
+        : getCurrProduct.price;
+    double totalPrice = usedPrice * int.parse(_quantityTextController.text);
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -53,7 +61,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           Flexible(
             flex: 2,
             child: FancyShimmerImage(
-              imageUrl: 'https://i.ibb.co/F0s3FHQ/Apricots.png',
+              imageUrl: getCurrProduct.imageUrl,
               boxFit: BoxFit.scaleDown,
               width: size.width,
             ),
@@ -78,7 +86,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       children: [
                         Flexible(
                           child: TextWidget(
-                            text: 'title',
+                            text: getCurrProduct.title,
                             color: color,
                             textSize: 25,
                             isTitle: true,
@@ -95,14 +103,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const TextWidget(
-                          text: '\$2.59',
+                        TextWidget(
+                          text: '\$${usedPrice.toStringAsFixed(2)}',
                           color: Colors.green,
                           textSize: 22,
                           isTitle: true,
                         ),
                         TextWidget(
-                          text: '/Kg',
+                          text: getCurrProduct.isPiece ? '/Piece' : '/Kg',
                           color: color,
                           textSize: 12,
                           isTitle: false,
@@ -111,9 +119,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                           width: 10,
                         ),
                         Visibility(
-                          visible: true,
+                          visible: getCurrProduct.isOnSale ? true : false,
                           child: Text(
-                            '\$3.9',
+                            '\$${getCurrProduct.price.toStringAsFixed(2)}',
                             style: TextStyle(
                               fontSize: 15,
                               color: color,
@@ -238,13 +246,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 child: Row(
                                   children: [
                                     TextWidget(
-                                      text: '\$2.59/',
+                                      text:
+                                          '\$${totalPrice.toStringAsFixed(2)}',
                                       color: color,
                                       textSize: 20,
                                       isTitle: true,
                                     ),
                                     TextWidget(
-                                      text: '${_quantityTextController.text}Kg',
+                                      text:
+                                          ' ${_quantityTextController.text}/${getCurrProduct.isPiece ? "Piece" : "Kg"}',
                                       color: color,
                                       textSize: 16,
                                       isTitle: false,
