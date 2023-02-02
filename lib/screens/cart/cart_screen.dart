@@ -3,7 +3,9 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/screens/cart/cart_widget.dart';
 import 'package:grocery_app/widgets/empty_screen.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/cart_provider.dart';
 import '../../services/global_methods.dart';
 import '../../services/utils.dart';
 
@@ -14,8 +16,9 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).color;
-    bool _isEmpty = true;
-    return _isEmpty
+    final cartProvider = Provider.of<CartProvider>(context);
+    final cartItemsList = cartProvider.getCartItems.values.toList();
+    return cartItemsList.isEmpty
         ? const EmptyScreen(
             title: 'Your cart is empty',
             subtitle: 'Add something and make me happy :)',
@@ -27,7 +30,7 @@ class CartScreen extends StatelessWidget {
               elevation: 0,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               title: TextWidget(
-                text: 'Cart (2)',
+                text: 'Cart (${cartItemsList.length})',
                 color: color,
                 textSize: 22,
                 isTitle: true,
@@ -54,7 +57,7 @@ class CartScreen extends StatelessWidget {
                 _checkout(ctx: context),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 10,
+                    itemCount: cartItemsList.length,
                     itemBuilder: ((context, index) {
                       return const CartWidget();
                     }),
