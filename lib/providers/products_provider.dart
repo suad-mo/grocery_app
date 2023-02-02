@@ -4,6 +4,8 @@ import '../models/products_model.dart';
 
 class ProductsProvider with ChangeNotifier {
   List<ProductModel> get getProducts => _productsList;
+  List<ProductModel> get getOnSaleProducts =>
+      _productsList.where((element) => element.isOnSale).toList();
 
   static final List<ProductModel> _productsList = [
     ProductModel(

@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Size size = utils.getScreenSize;
     final productProvider = Provider.of<ProductsProvider>(context);
     List<ProductModel> allProducts = productProvider.getProducts;
+    List<ProductModel> productOnSale = productProvider.getOnSaleProducts;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -104,10 +105,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: SizedBox(
                     height: size.height * 0.24,
                     child: ListView.builder(
-                      itemCount: 10,
+                      itemCount:
+                          productOnSale.length < 10 ? productOnSale.length : 10,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return const OnSaleWidget();
+                        return ChangeNotifierProvider.value(
+                          value: productOnSale[index],
+                          child: const OnSaleWidget(),
+                        );
                       },
                     ),
                   ),
