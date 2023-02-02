@@ -150,11 +150,12 @@ class _HomeScreenState extends State<HomeScreen> {
               // crossAxisSpacing: 10,
               childAspectRatio: size.width / (size.height * 0.59),
               children: List.generate(
-                  allProducts.length < 4 ? allProducts.length : 4,
-                  (index) => FeedsWidget(
-                        imageUrl: allProducts[index].imageUrl,
-                        title: allProducts[index].title,
-                      )),
+                allProducts.length < 4 ? allProducts.length : 4,
+                (index) => ChangeNotifierProvider.value(
+                  value: allProducts[index],
+                  child: const FeedsWidget(),
+                ),
+              ),
             )
           ],
         ),

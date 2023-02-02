@@ -2,6 +2,9 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grocery_app/inner_screens/product_details.dart';
+import 'package:grocery_app/models/products_model.dart';
+import 'package:provider/provider.dart';
+import '../providers/products_provider.dart';
 import '../services/global_methods.dart';
 import 'price_widget.dart';
 import 'text_widget.dart';
@@ -12,10 +15,10 @@ import '../services/utils.dart';
 class FeedsWidget extends StatefulWidget {
   const FeedsWidget({
     super.key,
-    required this.imageUrl,
-    required this.title,
+    // required this.imageUrl,
+    // required this.title,
   });
-  final String imageUrl, title;
+  // final String imageUrl, title;
 
   @override
   State<FeedsWidget> createState() => _FeedsWidgetState();
@@ -40,6 +43,8 @@ class _FeedsWidgetState extends State<FeedsWidget> {
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).color;
+    final productModel = Provider.of<ProductModel>(context);
+    // List<ProductModel> allProducts = productProvider.getProducts;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -56,7 +61,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
           child: Column(
             children: [
               FancyShimmerImage(
-                imageUrl: widget.imageUrl,
+                imageUrl: productModel.imageUrl,
                 height: size.width * 0.21,
                 width: size.width * 0.2,
                 boxFit: BoxFit.fill,
@@ -69,7 +74,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                     Flexible(
                       flex: 3,
                       child: TextWidget(
-                        text: widget.title,
+                        text: productModel.title,
                         color: color,
                         maxLine: 1,
                         textSize: 18,

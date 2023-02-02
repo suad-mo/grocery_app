@@ -102,9 +102,9 @@ class _FeedsScreenState extends State<FeedsScreen> {
               childAspectRatio: size.width / (size.height * 0.59),
               children: List.generate(
                 allProducts.length,
-                (index) => FeedsWidget(
-                  imageUrl: allProducts[index].imageUrl,
-                  title: allProducts[index].title,
+                (index) => ChangeNotifierProvider.value(
+                  value: allProducts[index],
+                  child: const FeedsWidget(),
                 ),
               ),
             )
