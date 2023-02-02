@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/inner_screens/feeds_screen.dart';
 import 'package:grocery_app/inner_screens/on_sale_screen.dart';
 import 'package:grocery_app/inner_screens/product_details.dart';
+import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/screens/auth/forget_pass.dart';
 import 'package:grocery_app/screens/auth/login.dart';
 import 'package:grocery_app/screens/auth/register.dart';
@@ -46,7 +47,10 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) {
           return themeChangeProvider;
-        })
+        }),
+        ChangeNotifierProvider(
+          create: (_) => ProductsProvider(),
+        ),
       ],
       child:
           Consumer<DarkThemeProvider>(builder: (context, themeProvider, child) {
@@ -54,8 +58,8 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: Styles.themeData(themeProvider.getDarkTheme, context),
-          home: const LoginScreen(),
-          // home: const BottomBarScreen(),
+          // home: const LoginScreen(),
+          home: const BottomBarScreen(),
           routes: {
             OnSaleScreen.routeName: (ctx) => const OnSaleScreen(),
             FeedsScreen.routeName: (ctx) => const FeedsScreen(),

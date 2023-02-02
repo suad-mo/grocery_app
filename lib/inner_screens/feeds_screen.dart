@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/consts/consts.dart';
+import 'package:grocery_app/models/products_model.dart';
+import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/widgets/back_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../services/utils.dart';
 import '../widgets/feed_items.dart';
@@ -29,6 +33,8 @@ class _FeedsScreenState extends State<FeedsScreen> {
     final Utils utils = Utils(context);
     final Color color = utils.color;
     Size size = utils.getScreenSize;
+    final productProvider = Provider.of<ProductsProvider>(context);
+    List<ProductModel> allProducts = productProvider.getProducts;
     return Scaffold(
       appBar: AppBar(
         leading: const BackWidget(),
@@ -94,7 +100,13 @@ class _FeedsScreenState extends State<FeedsScreen> {
               padding: EdgeInsets.zero,
               // crossAxisSpacing: 10,
               childAspectRatio: size.width / (size.height * 0.59),
-              children: List.generate(10, (index) => const FeedsWidget()),
+              children: List.generate(
+                allProducts.length,
+                (index) => FeedsWidget(
+                  imageUrl: allProducts[index].imageUrl,
+                  title: allProducts[index].title,
+                ),
+              ),
             )
           ],
         ),
