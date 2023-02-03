@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/cart_provider.dart';
 import '../providers/products_provider.dart';
+import '../providers/wishlist_provider.dart';
 import '../widgets/heart_btn.dart';
 import '../widgets/text_widget.dart';
 
@@ -36,6 +37,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     final Color color = Utils(context).color;
     final productProvider = Provider.of<ProductsProvider>(context);
     final cartProvider = Provider.of<CartProvider>(context);
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
     final productId = ModalRoute.of(context)!.settings.arguments as String;
     final getCurrProduct = productProvider.findProdById(productId);
     double usedPrice = getCurrProduct.isOnSale
@@ -43,6 +45,8 @@ class _ProductDetailsState extends State<ProductDetails> {
         : getCurrProduct.price;
     double totalPrice = usedPrice * int.parse(_quantityTextController.text);
     bool? _isInCart = cartProvider.getCartItems.containsKey(getCurrProduct.id);
+    bool? _isInWishlist =
+        wishlistProvider.getWishlistItems.containsKey(getCurrProduct.id);
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -95,7 +99,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                             isTitle: true,
                           ),
                         ),
-                        const HeartBTN(),
+                        HeartBTN(
+                          productId: getCurrProduct.id,
+                          isInWishlist: _isInWishlist,
+                        ),
                       ],
                     ),
                   ),

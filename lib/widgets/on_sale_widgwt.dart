@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../inner_screens/product_details.dart';
 import '../models/products_model.dart';
 import '../providers/cart_provider.dart';
+import '../providers/wishlist_provider.dart';
 // import '../services/global_methods.dart';
 
 class OnSaleWidget extends StatefulWidget {
@@ -28,6 +29,9 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
     final productModel = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
     bool? _isInCart = cartProvider.getCartItems.containsKey(productModel.id);
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
+    bool? _isInWishlist =
+        wishlistProvider.getWishlistItems.containsKey(productModel.id);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -85,7 +89,10 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                                 color: _isInCart ? Colors.green : color,
                               ),
                             ),
-                            const HeartBTN(),
+                            HeartBTN(
+                              productId: productModel.id,
+                              isInWishlist: _isInWishlist,
+                            ),
                             // GestureDetector(
                             //   onTap: () {},
                             //   child: Icon(

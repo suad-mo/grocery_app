@@ -7,6 +7,7 @@ import 'package:grocery_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 // import '../providers/products_provider.dart';
 // import '../services/global_methods.dart';
+import '../providers/wishlist_provider.dart';
 import 'price_widget.dart';
 import 'text_widget.dart';
 import 'heart_btn.dart';
@@ -46,7 +47,10 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     final Color color = Utils(context).color;
     final productModel = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
     bool? _isInCart = cartProvider.getCartItems.containsKey(productModel.id);
+    bool? _isInWishlist =
+        wishlistProvider.getWishlistItems.containsKey(productModel.id);
 
     // List<ProductModel> allProducts = productProvider.getProducts;
     return Padding(
@@ -90,9 +94,12 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                         isTitle: true,
                       ),
                     ),
-                    const Flexible(
+                    Flexible(
                       flex: 1,
-                      child: HeartBTN(),
+                      child: HeartBTN(
+                        productId: productModel.id,
+                        isInWishlist: _isInWishlist,
+                      ),
                     ),
                   ],
                 ),

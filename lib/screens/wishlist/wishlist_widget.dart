@@ -5,7 +5,9 @@ import 'package:grocery_app/inner_screens/product_details.dart';
 import 'package:grocery_app/services/global_methods.dart';
 import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/wishlist_provider.dart';
 import '../../services/utils.dart';
 
 class WishlistWidget extends StatelessWidget {
@@ -16,6 +18,9 @@ class WishlistWidget extends StatelessWidget {
     final Utils utils = Utils(context);
     final Color color = utils.color;
     Size size = utils.getScreenSize;
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
+    // bool? _isInWishlist =
+    //     wishlistProvider.getWishlistItems.containsKey(productModel.id);
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: GestureDetector(
@@ -56,7 +61,10 @@ class WishlistWidget extends StatelessWidget {
                             color: color,
                           ),
                         ),
-                        const HeartBTN(),
+                        // HeartBTN(
+                        //       productId: getCurrProduct.id,
+                        //       isInWishlist: _isInWishlist,
+                        //     ),
                       ],
                     ),
                   ),

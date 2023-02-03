@@ -6,7 +6,7 @@ class WishlistProvider with ChangeNotifier {
 
   Map<String, WishlistModel> get getWishlistItems => _wishlistItems;
 
-  void addProductToWishlist({required String productId}) {
+  void addRemoveProductToWishlist({required String productId}) {
     if (_wishlistItems.containsKey(productId)) {
       removeOneItem(productId);
     } else {
@@ -18,6 +18,7 @@ class WishlistProvider with ChangeNotifier {
         ),
       );
     }
+    notifyListeners();
   }
 
   void removeOneItem(String productId) {
