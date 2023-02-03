@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
     final Utils utils = Utils(context);
-    final themeState = utils.getTheme;
+    // final themeState = utils.getTheme;
     Size size = utils.getScreenSize;
     final productProvider = Provider.of<ProductsProvider>(context);
     List<ProductModel> allProducts = productProvider.getProducts;

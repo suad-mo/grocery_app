@@ -14,10 +14,11 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = Utils(context).getScreenSize;
+    // Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).color;
     final cartProvider = Provider.of<CartProvider>(context);
-    final cartItemsList = cartProvider.getCartItems.values.toList();
+    final cartItemsList =
+        cartProvider.getCartItems.values.toList().reversed.toList();
     return cartItemsList.isEmpty
         ? const EmptyScreen(
             title: 'Your cart is empty',
@@ -41,7 +42,12 @@ class CartScreen extends StatelessWidget {
                     GlobalMethod.warningDialog(
                       title: 'Empty your cart',
                       subtitle: 'Are your sure??',
-                      fct: () {},
+                      fct: () {
+                        cartProvider.clearCart();
+                        if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        }
+                      },
                       context: context,
                     );
                   },
@@ -61,7 +67,9 @@ class CartScreen extends StatelessWidget {
                     itemBuilder: ((context, index) {
                       return ChangeNotifierProvider.value(
                         value: cartItemsList[index],
-                        child: const CartWidget(),
+                        child: CartWidget(
+                          q: cartItemsList[index].quantity,
+                        ),
                       );
                     }),
                   ),

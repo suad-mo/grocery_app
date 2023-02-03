@@ -52,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Utils(context).getTheme;
-    Color color = Utils(context).color;
+    // Color color = Utils(context).color;
 
     return Scaffold(
       body: Stack(

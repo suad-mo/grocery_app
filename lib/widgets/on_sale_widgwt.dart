@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../inner_screens/product_details.dart';
 import '../models/products_model.dart';
 import '../providers/cart_provider.dart';
-import '../services/global_methods.dart';
+// import '../services/global_methods.dart';
 
 class OnSaleWidget extends StatefulWidget {
   const OnSaleWidget({super.key});
@@ -23,7 +23,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
-    final theme = Utils(context).getTheme;
+    // final theme = Utils(context).getTheme;
     Size size = Utils(context).getScreenSize;
     final productModel = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
@@ -74,7 +74,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                             GestureDetector(
                               onTap: () {
                                 cartProvider.addProductsToCart(
-                                  prodctId: productModel.id,
+                                  productId: productModel.id,
                                   quantity: 1,
                                 );
                               },

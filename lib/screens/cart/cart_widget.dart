@@ -9,12 +9,13 @@ import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/cart_model.dart';
-import '../../models/products_model.dart';
+import '../../providers/cart_provider.dart';
 import '../../services/global_methods.dart';
 import '../../services/utils.dart';
 
 class CartWidget extends StatefulWidget {
-  const CartWidget({super.key});
+  const CartWidget({super.key, required this.q});
+  final int q;
 
   @override
   State<CartWidget> createState() => _CartWidgetState();
@@ -25,7 +26,7 @@ class _CartWidgetState extends State<CartWidget> {
 
   @override
   void initState() {
-    _quantityTextController.text = '1';
+    _quantityTextController.text = widget.q.toString();
     super.initState();
   }
 
@@ -40,16 +41,18 @@ class _CartWidgetState extends State<CartWidget> {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).color;
     final productProvider = Provider.of<ProductsProvider>(context);
-    final carttModel = Provider.of<CartModel>(context);
-    final getCurrProduct = productProvider.findProdById(carttModel.productId);
+    final cartModel = Provider.of<CartModel>(context);
+    final getCurrProduct = productProvider.findProdById(cartModel.productId);
     double usedPrice = getCurrProduct.isOnSale
         ? getCurrProduct.salePrice
         : getCurrProduct.price;
+    final cartProvider = Provider.of<CartProvider>(context);
     return GestureDetector(
       onTap: () {
-        GlobalMethod.navigateTo(
-          ctx: context,
-          routeName: ProductDetails.routeName,
+        Navigator.pushNamed(
+          context,
+          ProductDetails.routeName,
+          arguments: cartModel.productId,
         );
       },
       child: Row(
@@ -82,6 +85,7 @@ class _CartWidgetState extends State<CartWidget> {
                           text: getCurrProduct.title,
                           color: color,
                           textSize: 20,
+                          maxLine: 1,
                           isTitle: true,
                         ),
                         const SizedBox(height: 16.0),
@@ -94,6 +98,8 @@ class _CartWidgetState extends State<CartWidget> {
                                   if (_quantityTextController.text == '1') {
                                     return;
                                   }
+                                  cartProvider
+                                      .reduceQuantityByOne(cartModel.productId);
                                   setState(() {
                                     _quantityTextController.text = (int.parse(
                                                 _quantityTextController.text) -
@@ -133,6 +139,8 @@ class _CartWidgetState extends State<CartWidget> {
                               ),
                               _quantityController(
                                 fct: () {
+                                  cartProvider.increaseQuantityByOne(
+                                      cartModel.productId);
                                   setState(() {
                                     _quantityTextController.text = (int.parse(
                                                 _quantityTextController.text) +
@@ -154,7 +162,9 @@ class _CartWidgetState extends State<CartWidget> {
                       child: Column(
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              cartProvider.removeOneItem(cartModel.productId);
+                            },
                             child: const Icon(
                               CupertinoIcons.cart_badge_minus,
                               color: Colors.red,
