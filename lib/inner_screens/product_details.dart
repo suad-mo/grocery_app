@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/cart_provider.dart';
 import '../providers/products_provider.dart';
 import '../widgets/heart_btn.dart';
 import '../widgets/text_widget.dart';
@@ -34,6 +35,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).color;
     final productProvider = Provider.of<ProductsProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
     final productId = ModalRoute.of(context)!.settings.arguments as String;
     final getCurrProduct = productProvider.findProdById(productId);
     double usedPrice = getCurrProduct.isOnSale
@@ -273,7 +275,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                             color: Colors.green,
                             borderRadius: BorderRadius.circular(10),
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                cartProvider.addProductsToCart(
+                                  productId: getCurrProduct.id,
+                                  quantity:
+                                      int.parse(_quantityTextController.text),
+                                );
+                              },
                               borderRadius: BorderRadius.circular(10),
                               child: const Padding(
                                 padding: EdgeInsets.all(12.0),
