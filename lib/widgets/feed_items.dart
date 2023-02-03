@@ -46,6 +46,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     final Color color = Utils(context).color;
     final productModel = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
+    bool? _isInCart = cartProvider.getCartItems.containsKey(productModel.id);
 
     // List<ProductModel> allProducts = productProvider.getProducts;
     return Padding(
@@ -168,12 +169,17 @@ class _FeedsWidgetState extends State<FeedsWidget> {
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {
-                    cartProvider.addProductsToCart(
-                      productId: productModel.id,
-                      quantity: int.parse(_quantityTextController.text),
-                    );
-                  },
+                  onPressed: _isInCart
+                      ? null
+                      : () {
+                          // if (_isInCart) {
+                          //   return;
+                          // }
+                          cartProvider.addProductsToCart(
+                            productId: productModel.id,
+                            quantity: int.parse(_quantityTextController.text),
+                          );
+                        },
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Theme.of(context).cardColor),
@@ -186,7 +192,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                     ))),
                   ),
                   child: TextWidget(
-                    text: 'Add to cart',
+                    text: _isInCart ? 'In cart' : 'Add to cart',
                     color: color,
                     textSize: 20,
                     maxLine: 1,

@@ -42,6 +42,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         ? getCurrProduct.salePrice
         : getCurrProduct.price;
     double totalPrice = usedPrice * int.parse(_quantityTextController.text);
+    bool? _isInCart = cartProvider.getCartItems.containsKey(getCurrProduct.id);
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -275,18 +276,30 @@ class _ProductDetailsState extends State<ProductDetails> {
                             color: Colors.green,
                             borderRadius: BorderRadius.circular(10),
                             child: InkWell(
-                              onTap: () {
-                                cartProvider.addProductsToCart(
-                                  productId: getCurrProduct.id,
-                                  quantity:
-                                      int.parse(_quantityTextController.text),
-                                );
-                              },
+                              onTap: _isInCart
+                                  ? null
+                                  : () {
+                                      // if (_isInCart) {
+                                      //   return;
+                                      // }
+                                      cartProvider.addProductsToCart(
+                                        productId: getCurrProduct.id,
+                                        quantity: int.parse(
+                                            _quantityTextController.text),
+                                      );
+                                    },
+                              // () {
+                              //   cartProvider.addProductsToCart(
+                              //     productId: getCurrProduct.id,
+                              //     quantity:
+                              //         int.parse(_quantityTextController.text),
+                              //   );
+                              // },
                               borderRadius: BorderRadius.circular(10),
-                              child: const Padding(
-                                padding: EdgeInsets.all(12.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
                                 child: TextWidget(
-                                  text: 'Add to cart',
+                                  text: _isInCart ? 'In cart' : 'Add to cart',
                                   color: Colors.white,
                                   textSize: 18,
                                 ),
