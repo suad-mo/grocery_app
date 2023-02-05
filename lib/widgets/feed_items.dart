@@ -48,8 +48,8 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     final productModel = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
     final wishlistProvider = Provider.of<WishlistProvider>(context);
-    bool? _isInCart = cartProvider.getCartItems.containsKey(productModel.id);
-    bool? _isInWishlist =
+    bool? isInCart = cartProvider.getCartItems.containsKey(productModel.id);
+    bool? isInWishlist =
         wishlistProvider.getWishlistItems.containsKey(productModel.id);
 
     // List<ProductModel> allProducts = productProvider.getProducts;
@@ -98,7 +98,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                       flex: 1,
                       child: HeartBTN(
                         productId: productModel.id,
-                        isInWishlist: _isInWishlist,
+                        isInWishlist: isInWishlist,
                       ),
                     ),
                   ],
@@ -176,7 +176,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: _isInCart
+                  onPressed: isInCart
                       ? null
                       : () {
                           // if (_isInCart) {
@@ -199,7 +199,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                     ))),
                   ),
                   child: TextWidget(
-                    text: _isInCart ? 'In cart' : 'Add to cart',
+                    text: isInCart ? 'In cart' : 'Add to cart',
                     color: color,
                     textSize: 20,
                     maxLine: 1,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/inner_screens/product_details.dart';
 import 'package:grocery_app/models/wishlist_model.dart';
-import 'package:grocery_app/services/global_methods.dart';
+import 'package:grocery_app/providers/cart_provider.dart';
 import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +30,7 @@ class WishlistWidget extends StatelessWidget {
     Size size = utils.getScreenSize;
     // bool? _isInWishlist =
     //     wishlistProvider.getWishlistItems.containsKey(productModel.id);
-    bool? _isInWishlist =
+    bool? isInWishlist =
         wishlistProvider.getWishlistItems.containsKey(getCurrProduct.id);
     return Padding(
       padding: const EdgeInsets.all(4.0),
@@ -77,16 +77,29 @@ class WishlistWidget extends StatelessWidget {
                     Flexible(
                       child: Row(
                         children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              IconlyLight.bag2,
-                              color: color,
-                            ),
-                          ),
+                          Consumer<CartProvider>(builder: (_, myCart, ch) {
+                            final isInCart = myCart.getCartItems
+                                .containsKey(getCurrProduct.id);
+                            return IconButton(
+                              onPressed: isInCart
+                                  ? null
+                                  : () {
+                                      myCart.addProductsToCart(
+                                        productId: getCurrProduct.id,
+                                        quantity: 1,
+                                      );
+                                    },
+                              icon: Icon(
+                                isInCart ? IconlyBold.bag2 : IconlyLight.bag2,
+                                // IconlyLight.bag2,
+                                color:
+                                    isInCart ? Colors.green : color, // color,
+                              ),
+                            );
+                          }),
                           HeartBTN(
                             productId: getCurrProduct.id,
-                            isInWishlist: _isInWishlist,
+                            isInWishlist: isInWishlist,
                           ),
                         ],
                       ),

@@ -11,7 +11,6 @@ import '../providers/viewed_prod_provider.dart';
 import '../providers/wishlist_provider.dart';
 import '../widgets/heart_btn.dart';
 import '../widgets/text_widget.dart';
-
 import '../services/utils.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -45,23 +44,29 @@ class _ProductDetailsState extends State<ProductDetails> {
         ? getCurrProduct.salePrice
         : getCurrProduct.price;
     double totalPrice = usedPrice * int.parse(_quantityTextController.text);
-    bool? _isInCart = cartProvider.getCartItems.containsKey(getCurrProduct.id);
-    bool? _isInWishlist =
+    bool? isInCart = cartProvider.getCartItems.containsKey(getCurrProduct.id);
+    bool? isInWishlist =
         wishlistProvider.getWishlistItems.containsKey(getCurrProduct.id);
     final viewedProdProvider = Provider.of<ViewedProdProvider>(context);
+
     return WillPopScope(
       onWillPop: () async {
         viewedProdProvider.addProductToHistory(productId: productId);
-        print('aaaaa');
+        //print('aaaaa');
         return true;
       },
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           leading: InkWell(
             borderRadius: BorderRadius.circular(12),
             onTap: () {
-              viewedProdProvider.addProductToHistory(productId: productId);
-              Navigator.canPop(context) ? Navigator.pop(context) : null;
+              //print('OnTap...');
+              // Navigator.canPop(context) ? Navigator.pop(context) : null;
+              if (Navigator.canPop(context)) {
+                viewedProdProvider.addProductToHistory(productId: productId);
+                Navigator.pop(context);
+              }
             },
             child: Icon(
               IconlyLight.arrowLeft2,
@@ -110,7 +115,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                           HeartBTN(
                             productId: getCurrProduct.id,
-                            isInWishlist: _isInWishlist,
+                            isInWishlist: isInWishlist,
                           ),
                         ],
                       ),
@@ -294,7 +299,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               color: Colors.green,
                               borderRadius: BorderRadius.circular(10),
                               child: InkWell(
-                                onTap: _isInCart
+                                onTap: isInCart
                                     ? null
                                     : () {
                                         // if (_isInCart) {
@@ -317,7 +322,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: TextWidget(
-                                    text: _isInCart ? 'In cart' : 'Add to cart',
+                                    text: isInCart ? 'In cart' : 'Add to cart',
                                     color: Colors.white,
                                     textSize: 18,
                                   ),

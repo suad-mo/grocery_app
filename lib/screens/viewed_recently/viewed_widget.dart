@@ -1,24 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:grocery_app/inner_screens/product_details.dart';
-import 'package:grocery_app/models/viewed_model.dart';
-import 'package:grocery_app/services/global_methods.dart';
 import 'package:provider/provider.dart';
+
+import '../../inner_screens/product_details.dart';
+import '../../models/viewed_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/products_provider.dart';
 import '../../services/utils.dart';
 import '../../widgets/text_widget.dart';
 
-class ViewedRecentlyWidget extends StatefulWidget {
+class ViewedRecentlyWidget extends StatelessWidget {
   const ViewedRecentlyWidget({Key? key}) : super(key: key);
 
-  @override
-  _ViewedRecentlyWidgetState createState() => _ViewedRecentlyWidgetState();
-}
+//   @override
+//   _ViewedRecentlyWidgetState createState() => _ViewedRecentlyWidgetState();
+// }
 
-class _ViewedRecentlyWidgetState extends State<ViewedRecentlyWidget> {
+// class _ViewedRecentlyWidgetState extends State<ViewedRecentlyWidget> {
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductsProvider>(context);
@@ -29,9 +28,8 @@ class _ViewedRecentlyWidgetState extends State<ViewedRecentlyWidget> {
         ? getCurrProduct.salePrice
         : getCurrProduct.price;
     final cartProvider = Provider.of<CartProvider>(context);
-    bool? _isInCart = cartProvider.getCartItems.containsKey(getCurrProduct.id);
+    bool? isInCart = cartProvider.getCartItems.containsKey(getCurrProduct.id);
 
-    final Utils utils = Utils(context);
     Color color = Utils(context).color;
     Size size = Utils(context).getScreenSize;
     return Padding(
@@ -86,8 +84,8 @@ class _ViewedRecentlyWidgetState extends State<ViewedRecentlyWidget> {
                 color: Colors.green,
                 child: InkWell(
                     borderRadius: BorderRadius.circular(12),
-                    onTap: _isInCart
-                        ? () {}
+                    onTap: isInCart
+                        ? null //() {}
                         : () {
                             cartProvider.addProductsToCart(
                               productId: getCurrProduct.id,
@@ -97,7 +95,7 @@ class _ViewedRecentlyWidgetState extends State<ViewedRecentlyWidget> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(
-                        _isInCart ? Icons.check : IconlyBold.plus,
+                        isInCart ? Icons.check : IconlyBold.plus,
                         color: Colors.white,
                         size: 20,
                       ),

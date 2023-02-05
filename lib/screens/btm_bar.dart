@@ -8,6 +8,7 @@ import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/dark_theme_provider.dart';
+import '../providers/cart_provider.dart';
 import 'cart/cart_screen.dart';
 
 class BottomBarScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class BottomBarScreen extends StatefulWidget {
 }
 
 class _BottomBarScreenState extends State<BottomBarScreen> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   final List<Map<String, dynamic>> _pages = [
     {
       'page': const HomeScreen(),
@@ -46,6 +47,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   @override
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
+    // final cartProvider = Provider.of<CartProvider>(context);
     // ignore: no_leading_underscores_for_local_identifiers
     bool _isDark = themeState.getDarkTheme;
     return Scaffold(
@@ -75,18 +77,22 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
             label: 'Categories',
           ),
           BottomNavigationBarItem(
-            icon: Badge(
-              toAnimate: true,
-              shape: BadgeShape.circle,
-              badgeColor: Colors.blue,
-              borderRadius: BorderRadius.circular(8),
-              position: BadgePosition.topEnd(top: -7, end: -7),
-              badgeContent: const TextWidget(
-                  text: '1', color: Colors.white, textSize: 15),
-              //const Text('1', style: TextStyle(color: Colors.white)),
-              child:
-                  Icon(_selectedIndex == 2 ? IconlyBold.buy : IconlyLight.buy),
-            ),
+            icon: Consumer<CartProvider>(builder: (_, myCart, ch) {
+              return Badge(
+                toAnimate: true,
+                shape: BadgeShape.circle,
+                badgeColor: Colors.blue,
+                borderRadius: BorderRadius.circular(8),
+                position: BadgePosition.topEnd(top: -7, end: -7),
+                badgeContent: TextWidget(
+                    text: myCart.getCartItems.length.toString(),
+                    color: Colors.white,
+                    textSize: 15),
+                //const Text('1', style: TextStyle(color: Colors.white)),
+                child: Icon(
+                    _selectedIndex == 2 ? IconlyBold.buy : IconlyLight.buy),
+              );
+            }),
             label: 'Cart',
           ),
           BottomNavigationBarItem(

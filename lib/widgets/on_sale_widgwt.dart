@@ -28,9 +28,9 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
     Size size = Utils(context).getScreenSize;
     final productModel = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
-    bool? _isInCart = cartProvider.getCartItems.containsKey(productModel.id);
+    bool? isInCart = cartProvider.getCartItems.containsKey(productModel.id);
     final wishlistProvider = Provider.of<WishlistProvider>(context);
-    bool? _isInWishlist =
+    bool? isInWishlist =
         wishlistProvider.getWishlistItems.containsKey(productModel.id);
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -77,7 +77,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                         Row(
                           children: [
                             GestureDetector(
-                              onTap: _isInCart
+                              onTap: isInCart
                                   ? null
                                   : () {
                                       cartProvider.addProductsToCart(
@@ -86,14 +86,14 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                                       );
                                     },
                               child: Icon(
-                                _isInCart ? IconlyBold.bag2 : IconlyLight.bag2,
+                                isInCart ? IconlyBold.bag2 : IconlyLight.bag2,
                                 size: 22,
-                                color: _isInCart ? Colors.green : color,
+                                color: isInCart ? Colors.green : color,
                               ),
                             ),
                             HeartBTN(
                               productId: productModel.id,
-                              isInWishlist: _isInWishlist,
+                              isInWishlist: isInWishlist,
                             ),
                             // GestureDetector(
                             //   onTap: () {},

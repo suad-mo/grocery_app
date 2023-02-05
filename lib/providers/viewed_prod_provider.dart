@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/models/viewed_model.dart';
+
+import '../models/viewed_model.dart';
 
 class ViewedProdProvider with ChangeNotifier {
-  Map<String, ViewedProdModel> _viewedProdItems = {};
+  final Map<String, ViewedProdModel> _viewedProdlistItems = {};
 
-  Map<String, ViewedProdModel> get getViewedProdItems => _viewedProdItems;
+  Map<String, ViewedProdModel> get getViewedProdlistItems {
+    return _viewedProdlistItems;
+  }
 
   void addProductToHistory({required String productId}) {
-    _viewedProdItems.putIfAbsent(
-      productId,
-      () => ViewedProdModel(
-        id: DateTime.now().toString(),
-        productId: productId,
-      ),
-    );
+    _viewedProdlistItems.putIfAbsent(
+        productId,
+        () => ViewedProdModel(
+            id: DateTime.now().toString(), productId: productId));
 
     notifyListeners();
   }
 
   void clearHistory() {
-    _viewedProdItems.clear();
+    _viewedProdlistItems.clear();
     notifyListeners();
   }
 }

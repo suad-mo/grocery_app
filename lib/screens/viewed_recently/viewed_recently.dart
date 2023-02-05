@@ -27,9 +27,11 @@ class _ViewedRecentlyScreenState extends State<ViewedRecentlyScreen> {
     Color color = Utils(context).color;
     // Size size = Utils(context).getScreenSize;
     final viewedProdProvider = Provider.of<ViewedProdProvider>(context);
-    final viewedProdItemsList =
-        viewedProdProvider.getViewedProdItems.values.toList().reversed.toList();
-    print(viewedProdItemsList.toString());
+    final viewedProdItemsList = viewedProdProvider.getViewedProdlistItems.values
+        .toList()
+        .reversed
+        .toList();
+    // print(viewedProdItemsList.toString());
 
     return viewedProdItemsList.isEmpty
         ? const EmptyScreen(
@@ -46,7 +48,12 @@ class _ViewedRecentlyScreenState extends State<ViewedRecentlyScreen> {
                     GlobalMethod.warningDialog(
                         title: 'Empty your history?',
                         subtitle: 'Are you sure?',
-                        fct: () {},
+                        fct: () {
+                          viewedProdProvider.clearHistory();
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          }
+                        },
                         context: context);
                   },
                   icon: Icon(
