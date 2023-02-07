@@ -30,6 +30,7 @@ class HeartBTN extends StatelessWidget {
           );
           return;
         }
+        // print('user id is ${user.uid}');
         wishlistProvider.addRemoveProductToWishlist(productId: productId);
       },
       child: Icon(

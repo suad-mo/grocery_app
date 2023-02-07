@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/screens/auth/forget_pass.dart';
 import 'package:grocery_app/screens/auth/register.dart';
+import 'package:grocery_app/screens/btm_bar.dart';
 import 'package:grocery_app/services/global_methods.dart';
 import 'package:grocery_app/widgets/google_button.dart';
 
@@ -235,7 +236,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 10,
                   ),
                   AuthButton(
-                    fct: () {},
+                    fct: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const BottomBarScreen(),
+                        ),
+                      );
+                    },
                     buttonText: 'Continue as a guest',
                     primary: Colors.black,
                   ),

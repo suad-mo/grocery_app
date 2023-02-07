@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/consts/firebase_const.dart';
+import 'package:grocery_app/screens/auth/login.dart';
 import 'package:grocery_app/screens/orders/orders_screen.dart';
 import 'package:grocery_app/screens/viewed_recently/viewed_recently.dart';
 import 'package:grocery_app/screens/wishlist/wishlist_screen.dart';
@@ -25,6 +28,8 @@ class _UserScreenState extends State<UserScreen> {
     _addressTextController.dispose();
     super.dispose();
   }
+
+  final User? user = authInstance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -147,13 +152,28 @@ class _UserScreenState extends State<UserScreen> {
                   value: themeState.getDarkTheme,
                 ),
                 _listTiles(
-                  title: 'Logout',
-                  icon: IconlyBold.logout,
+                  title: user == null ? 'Login' : 'Logout',
+                  icon: user == null ? IconlyLight.login : IconlyBold.logout,
                   onPressed: () {
+                    if (user == null) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                      return;
+                    }
                     GlobalMethod.warningDialog(
                       title: 'Signout',
                       subtitle: 'Do you wanna sign out?',
-                      fct: () {},
+                      fct: () async {
+                        await authInstance.signOut();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                        );
+                      },
                       context: context,
                     );
                   },
