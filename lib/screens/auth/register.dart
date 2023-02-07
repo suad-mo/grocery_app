@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/screens/auth/login.dart';
+import 'package:grocery_app/screens/btm_bar.dart';
 import 'package:grocery_app/screens/loading_manager.dart';
 import 'package:grocery_app/services/global_methods.dart';
 
@@ -59,6 +60,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         await authInstance.createUserWithEmailAndPassword(
           email: _emailTextController.text.toLowerCase().trim(),
           password: _passTextController.text.trim(),
+        );
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const BottomBarScreen(),
+          ),
         );
         print('Succesfully regisstered');
       } on FirebaseAuthException catch (error) {
