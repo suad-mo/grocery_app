@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/consts/firebase_const.dart';
 import 'package:grocery_app/screens/auth/login.dart';
+import 'package:grocery_app/screens/loading_manager.dart';
 import 'package:grocery_app/screens/orders/orders_screen.dart';
 import 'package:grocery_app/screens/viewed_recently/viewed_recently.dart';
 import 'package:grocery_app/screens/wishlist/wishlist_screen.dart';
@@ -30,163 +32,215 @@ class _UserScreenState extends State<UserScreen> {
     super.dispose();
   }
 
+  String? _email;
+  String? _name;
+  String? address;
+  bool _isLoading = false;
   final User? user = authInstance.currentUser;
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
+
+  Future<void> getUserData() async {
+    setState(() {
+      _isLoading = true;
+    });
+    if (user == null) {
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+    try {
+      String _uid = user!.uid;
+
+      final DocumentSnapshot userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(_uid).get();
+      if (userDoc == null) {
+        return;
+      } else {
+        _email = userDoc.get('email');
+        _name = userDoc.get('name');
+        address = userDoc.get('shipping-address');
+        _addressTextController.text = userDoc.get('shipping-address');
+      }
+    } catch (error) {
+      GlobalMethod.errorDialog(
+        subtitle: '$error',
+        context: context,
+      );
+      setState(() {
+        _isLoading = false;
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
     final Color color = themeState.getDarkTheme ? Colors.white : Colors.black;
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: 'Hi, ',
-                    style: const TextStyle(
-                      color: Colors.cyan,
-                      fontSize: 27,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: 'MyName',
-                          style: TextStyle(
-                            color: color,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = (() {
-                              //print('My name is pressed');
-                            })),
-                    ],
+      body: LoadingManager(
+        isLoading: _isLoading,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 15,
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                TextWidget(
-                  text: 'Email@email.com',
-                  color: color,
-                  textSize: 18,
-                  // isTitle: true,
-                ),
-                const SizedBox(height: 20),
-                const Divider(
-                  thickness: 2,
-                ),
-                const SizedBox(height: 20),
-                _listTiles(
-                  title: 'Addres 2',
-                  subtitle: 'My subtitle',
-                  icon: IconlyBold.user2,
-                  onPressed: () async {
-                    await _showAddressDialog();
-                  },
-                  color: color,
-                ),
-                _listTiles(
-                  title: 'Orders',
-                  icon: IconlyBold.bag,
-                  onPressed: () {
-                    GlobalMethod.navigateTo(
-                      ctx: context,
-                      routeName: OrdersScreen.routeName,
-                    );
-                  },
-                  color: color,
-                ),
-                _listTiles(
-                  title: 'Wishlist',
-                  icon: IconlyBold.heart,
-                  onPressed: () {
-                    GlobalMethod.navigateTo(
-                      ctx: context,
-                      routeName: WishlistScreen.routeName,
-                    );
-                  },
-                  color: color,
-                ),
-                _listTiles(
-                  title: 'Viewed',
-                  icon: IconlyBold.show,
-                  onPressed: () {
-                    GlobalMethod.navigateTo(
-                      ctx: context,
-                      routeName: ViewedRecentlyScreen.routeName,
-                    );
-                  },
-                  color: color,
-                ),
-                _listTiles(
-                  title: 'Forget password',
-                  icon: IconlyBold.unlock,
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const ForgetPasswordScreen(),
+                  RichText(
+                    text: TextSpan(
+                      text: 'Hi, ',
+                      style: const TextStyle(
+                        color: Colors.cyan,
+                        fontSize: 27,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                  },
-                  color: color,
-                ),
-                SwitchListTile(
-                  title: TextWidget(
-                    text: themeState.getDarkTheme ? 'Dark mode' : 'Light mode',
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: _name ?? 'User',
+                            style: TextStyle(
+                              color: color,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = (() {
+                                //print('My name is pressed');
+                              })),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  TextWidget(
+                    text: _email ?? 'email@example.com',
                     color: color,
                     textSize: 18,
                     // isTitle: true,
                   ),
-                  secondary: Icon(
-                    themeState.getDarkTheme
-                        ? Icons.dark_mode_outlined
-                        : Icons.light_mode_outlined,
+                  const SizedBox(height: 20),
+                  const Divider(
+                    thickness: 2,
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      themeState.setDarkTheme = value;
-                    });
-                  },
-                  value: themeState.getDarkTheme,
-                ),
-                _listTiles(
-                  title: user == null ? 'Login' : 'Logout',
-                  icon: user == null ? IconlyLight.login : IconlyBold.logout,
-                  onPressed: () {
-                    if (user == null) {
+                  const SizedBox(height: 20),
+                  _listTiles(
+                    title: 'Addres 2',
+                    subtitle: address ?? 'My address',
+                    icon: IconlyBold.user2,
+                    onPressed: () async {
+                      await _showAddressDialog();
+                    },
+                    color: color,
+                  ),
+                  _listTiles(
+                    title: 'Orders',
+                    icon: IconlyBold.bag,
+                    onPressed: () {
+                      GlobalMethod.navigateTo(
+                        ctx: context,
+                        routeName: OrdersScreen.routeName,
+                      );
+                    },
+                    color: color,
+                  ),
+                  _listTiles(
+                    title: 'Wishlist',
+                    icon: IconlyBold.heart,
+                    onPressed: () {
+                      GlobalMethod.navigateTo(
+                        ctx: context,
+                        routeName: WishlistScreen.routeName,
+                      );
+                    },
+                    color: color,
+                  ),
+                  _listTiles(
+                    title: 'Viewed',
+                    icon: IconlyBold.show,
+                    onPressed: () {
+                      GlobalMethod.navigateTo(
+                        ctx: context,
+                        routeName: ViewedRecentlyScreen.routeName,
+                      );
+                    },
+                    color: color,
+                  ),
+                  _listTiles(
+                    title: 'Forget password',
+                    icon: IconlyBold.unlock,
+                    onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
+                          builder: (context) => const ForgetPasswordScreen(),
                         ),
                       );
-                      return;
-                    }
-                    GlobalMethod.warningDialog(
-                      title: 'Signout',
-                      subtitle: 'Do you wanna sign out?',
-                      fct: () async {
-                        await authInstance.signOut();
+                    },
+                    color: color,
+                  ),
+                  SwitchListTile(
+                    title: TextWidget(
+                      text:
+                          themeState.getDarkTheme ? 'Dark mode' : 'Light mode',
+                      color: color,
+                      textSize: 18,
+                      // isTitle: true,
+                    ),
+                    secondary: Icon(
+                      themeState.getDarkTheme
+                          ? Icons.dark_mode_outlined
+                          : Icons.light_mode_outlined,
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        themeState.setDarkTheme = value;
+                      });
+                    },
+                    value: themeState.getDarkTheme,
+                  ),
+                  _listTiles(
+                    title: user == null ? 'Login' : 'Logout',
+                    icon: user == null ? IconlyLight.login : IconlyBold.logout,
+                    onPressed: () {
+                      if (user == null) {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const LoginScreen(),
                           ),
                         );
-                      },
-                      context: context,
-                    );
-                  },
-                  color: color,
-                ),
-              ],
+                        return;
+                      }
+                      GlobalMethod.warningDialog(
+                        title: 'Signout',
+                        subtitle: 'Do you wanna sign out?',
+                        fct: () async {
+                          await authInstance.signOut();
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
+                        },
+                        context: context,
+                      );
+                    },
+                    color: color,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
