@@ -261,15 +261,28 @@ class _UserScreenState extends State<UserScreen> {
               }),
               controller: _addressTextController,
               maxLines: 5,
-              decoration: const InputDecoration(
-                hintText: 'Your address',
-              ),
+              decoration: const InputDecoration(hintText: 'Your address'),
             ),
             actions: [
               TextButton(
-                  onPressed: (() {
-                    //print(_addressTextController.text);
-                  }),
+                  onPressed: () async {
+                    String _uid = user!.uid;
+                    try {
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(_uid)
+                          .update({
+                        'shipping-address': _addressTextController.text,
+                      });
+                      Navigator.pop(context);
+                      setState(() {
+                        address = _addressTextController.text;
+                      });
+                    } catch (err) {
+                      GlobalMethod.errorDialog(
+                          subtitle: '$err', context: context);
+                    }
+                  },
                   child: const Text('Update'))
             ],
           );
