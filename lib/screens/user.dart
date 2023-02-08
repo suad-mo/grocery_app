@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 
 import '../provider/dark_theme_provider.dart';
 import '../services/global_methods.dart';
+import 'auth/forget_pass.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
@@ -129,7 +130,13 @@ class _UserScreenState extends State<UserScreen> {
                 _listTiles(
                   title: 'Forget password',
                   icon: IconlyBold.unlock,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const ForgetPasswordScreen(),
+                      ),
+                    );
+                  },
                   color: color,
                 ),
                 SwitchListTile(
