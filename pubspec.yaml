@@ -42,12 +42,16 @@ dependencies:
   card_swiper: ^2.0.4
   fancy_shimmer_image: ^2.0.2
   flutter_staggered_grid_view: ^0.6.2
+
   badges: ^3.0.2
   # badges: ^2.0.3
   firebase_core: ^2.4.1
   firebase_auth: ^4.2.5
   flutter_spinkit: ^5.1.0
   cloud_firestore: ^4.4.2
+  fluttertoast: ^8.2.1
+  google_sign_in: ^6.0.0
+
 
 dev_dependencies:
   flutter_test:
