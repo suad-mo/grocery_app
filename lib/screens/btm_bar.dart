@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badge;
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/screens/categories.dart';
@@ -78,16 +78,20 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
           ),
           BottomNavigationBarItem(
             icon: Consumer<CartProvider>(builder: (_, myCart, ch) {
-              return Badge(
-                toAnimate: true,
-                shape: BadgeShape.circle,
-                badgeColor: Colors.blue,
-                borderRadius: BorderRadius.circular(8),
-                position: BadgePosition.topEnd(top: -7, end: -7),
-                badgeContent: TextWidget(
-                    text: myCart.getCartItems.length.toString(),
-                    color: Colors.white,
-                    textSize: 15),
+              return badge.Badge(
+                badgeAnimation: const badge.BadgeAnimation.slide(),
+                badgeStyle: badge.BadgeStyle(
+                  shape: badge.BadgeShape.circle,
+                  badgeColor: Colors.blue,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                position: badge.BadgePosition.topEnd(top: -7, end: -7),
+                badgeContent: FittedBox(
+                  child: TextWidget(
+                      text: myCart.getCartItems.length.toString(),
+                      color: Colors.white,
+                      textSize: 15),
+                ),
                 //const Text('1', style: TextStyle(color: Colors.white)),
                 child: Icon(
                     _selectedIndex == 2 ? IconlyBold.buy : IconlyLight.buy),

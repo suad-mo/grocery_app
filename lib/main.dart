@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_app/fetch_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'inner_screens/cat_scren.dart';
@@ -94,7 +95,7 @@ class _MyAppState extends State<MyApp> {
                 title: 'Flutter Demo',
                 theme: Styles.themeData(themeProvider.getDarkTheme, context),
                 // home: const LoginScreen(),
-                home: const BottomBarScreen(),
+                home: const FetchScreen(),
                 routes: {
                   OnSaleScreen.routeName: (ctx) => const OnSaleScreen(),
                   FeedsScreen.routeName: (ctx) => const FeedsScreen(),

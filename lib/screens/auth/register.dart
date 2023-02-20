@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/fetch_screen.dart';
 import 'package:grocery_app/screens/auth/login.dart';
 import 'package:grocery_app/screens/btm_bar.dart';
 import 'package:grocery_app/screens/loading_manager.dart';
@@ -63,7 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         );
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const BottomBarScreen(),
+            builder: (context) => const FetchScreen(),
           ),
         );
         print('Succesfully regisstered');
