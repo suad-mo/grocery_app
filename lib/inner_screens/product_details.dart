@@ -318,11 +318,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           );
                                           return;
                                         }
-                                        cartProvider.addProductsToCart(
+                                        GlobalMethod.addToCart(
                                           productId: getCurrProduct.id,
                                           quantity: int.parse(
                                               _quantityTextController.text),
+                                          context: context,
                                         );
+                                        // cartProvider.addProductsToCart(
+                                        //   productId: getCurrProduct.id,
+                                        //   quantity: int.parse(
+                                        //       _quantityTextController.text),
+                                        // );
                                       },
                                 // () {
                                 //   cartProvider.addProductsToCart(

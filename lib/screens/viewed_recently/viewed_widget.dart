@@ -98,10 +98,15 @@ class ViewedRecentlyWidget extends StatelessWidget {
                               );
                               return;
                             }
-                            cartProvider.addProductsToCart(
+                            GlobalMethod.addToCart(
                               productId: getCurrProduct.id,
                               quantity: 1,
+                              context: context,
                             );
+                            // cartProvider.addProductsToCart(
+                            //   productId: getCurrProduct.id,
+                            //   quantity: 1,
+                            // );
                           },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

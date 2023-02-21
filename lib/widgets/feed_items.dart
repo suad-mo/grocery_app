@@ -193,10 +193,15 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                             );
                             return;
                           }
-                          cartProvider.addProductsToCart(
+                          GlobalMethod.addToCart(
                             productId: productModel.id,
                             quantity: int.parse(_quantityTextController.text),
+                            context: context,
                           );
+                          // cartProvider.addProductsToCart(
+                          //   productId: productModel.id,
+                          //   quantity: int.parse(_quantityTextController.text),
+                          // );
                         },
                   style: ButtonStyle(
                     backgroundColor:

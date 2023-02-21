@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/products_provider.dart';
 import '../../providers/wishlist_provider.dart';
+import '../../services/global_methods.dart';
 import '../../services/utils.dart';
 
 class WishlistWidget extends StatelessWidget {
@@ -84,10 +85,15 @@ class WishlistWidget extends StatelessWidget {
                               onPressed: isInCart
                                   ? null
                                   : () {
-                                      myCart.addProductsToCart(
+                                      GlobalMethod.addToCart(
                                         productId: getCurrProduct.id,
                                         quantity: 1,
+                                        context: context,
                                       );
+                                      // myCart.addProductsToCart(
+                                      //   productId: getCurrProduct.id,
+                                      //   quantity: 1,
+                                      // );
                                     },
                               icon: Icon(
                                 isInCart ? IconlyBold.bag2 : IconlyLight.bag2,
