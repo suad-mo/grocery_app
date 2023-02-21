@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_app/fetch_screen.dart';
 import 'package:grocery_app/screens/auth/forget_pass.dart';
 import 'package:grocery_app/screens/auth/register.dart';
 import 'package:grocery_app/screens/btm_bar.dart';
@@ -271,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       fct: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const BottomBarScreen(),
+                            builder: (context) => const FetchScreen(),
                           ),
                         );
                       },

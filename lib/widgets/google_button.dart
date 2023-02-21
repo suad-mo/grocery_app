@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:grocery_app/consts/firebase_const.dart';
+import 'package:grocery_app/fetch_screen.dart';
+import 'package:grocery_app/inner_screens/feeds_screen.dart';
 import '../screens/btm_bar.dart';
 import '../services/global_methods.dart';
 import 'text_widget.dart';
@@ -23,7 +25,7 @@ class GoogleButton extends StatelessWidget {
             ),
           );
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => const BottomBarScreen(),
+            builder: (context) => const FetchScreen(),
           ));
         } on FirebaseAuthException catch (error) {
           GlobalMethod.errorDialog(
