@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:grocery_app/models/products_model.dart';
 import 'package:grocery_app/providers/products_provider.dart';
@@ -20,6 +22,7 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   final TextEditingController _searchTextController = TextEditingController();
   final FocusNode _searchTextFocusNode = FocusNode();
+  List<ProductModel> listProductSearch = [];
   @override
   void dispose() {
     _searchTextController.dispose();
@@ -32,9 +35,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
     final Utils utils = Utils(context);
     final Color color = utils.color;
     Size size = utils.getScreenSize;
-    final productProvider = Provider.of<ProductsProvider>(context);
+    final productsProvider = Provider.of<ProductsProvider>(context);
     final catName = ModalRoute.of(context)!.settings.arguments as String;
-    List<ProductModel> productByCat = productProvider.findByCategory(catName);
+    List<ProductModel> productByCat = productsProvider.findByCategory(catName);
     return Scaffold(
       appBar: AppBar(
         leading: const BackWidget(),
@@ -63,7 +66,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         focusNode: _searchTextFocusNode,
                         controller: _searchTextController,
                         onChanged: (value) {
-                          setState(() {});
+                          setState(() {
+                            listProductSearch =
+                                productsProvider.serchQuery(value);
+                            // listProductSearch = productByCat
+                            //     .where(
+                            //         (element) => element.title.contains(value))
+                            //     .toList();
+                          });
                         },
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
@@ -98,21 +108,30 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ),
                     ),
                   ),
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    padding: EdgeInsets.zero,
-                    // crossAxisSpacing: 10,
-                    childAspectRatio: size.width / (size.height * 0.59),
-                    children: List.generate(
-                      productByCat.length,
-                      (index) => ChangeNotifierProvider.value(
-                        value: productByCat[index],
-                        child: const FeedsWidget(),
-                      ),
-                    ),
-                  )
+                  _searchTextController.text.isNotEmpty &&
+                          listProductSearch.isEmpty
+                      ? const EmptyProductsWidget(
+                          text:
+                              'No products found, please tray anoder keyword!')
+                      : GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          padding: EdgeInsets.zero,
+                          // crossAxisSpacing: 10,
+                          childAspectRatio: size.width / (size.height * 0.59),
+                          children: List.generate(
+                            _searchTextController.text.isNotEmpty
+                                ? listProductSearch.length
+                                : productByCat.length,
+                            (index) => ChangeNotifierProvider.value(
+                              value: _searchTextController.text.isNotEmpty
+                                  ? listProductSearch[index]
+                                  : productByCat[index],
+                              child: const FeedsWidget(),
+                            ),
+                          ),
+                        )
                 ],
               ),
             ),

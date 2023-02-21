@@ -57,7 +57,16 @@ class ProductsProvider with ChangeNotifier {
     return categoryList;
   }
 
-  // static final List<ProductModel> _productsList = [
+  List<ProductModel> serchQuery(String searchText) {
+    List<ProductModel> searchList = _productsList
+        .where((element) =>
+            element.title.toLowerCase().contains(searchText.toLowerCase()))
+        .toList();
+    return searchList;
+  }
+}
+
+// static final List<ProductModel> _productsList = [
   //   ProductModel(
   //     id: 'Apricot',
   //     title: 'Apricot',
@@ -342,4 +351,3 @@ class ProductsProvider with ChangeNotifier {
   //     isPiece: false,
   //   ),
   // ];
-}

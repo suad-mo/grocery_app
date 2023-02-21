@@ -5,6 +5,7 @@ import 'package:grocery_app/widgets/back_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../services/utils.dart';
+import '../widgets/empty_products_widget.dart';
 import '../widgets/feed_items.dart';
 import '../widgets/text_widget.dart';
 
@@ -19,7 +20,7 @@ class FeedsScreen extends StatefulWidget {
 class _FeedsScreenState extends State<FeedsScreen> {
   final TextEditingController _searchTextController = TextEditingController();
   final FocusNode _searchTextFocusNode = FocusNode();
-
+  List<ProductModel> listProductSearch = [];
   // @override
   // void initState() {
   //   final productsProvider =
@@ -40,8 +41,8 @@ class _FeedsScreenState extends State<FeedsScreen> {
     final Utils utils = Utils(context);
     final Color color = utils.color;
     Size size = utils.getScreenSize;
-    final productProvider = Provider.of<ProductsProvider>(context);
-    List<ProductModel> allProducts = productProvider.getProducts;
+    final productsProvider = Provider.of<ProductsProvider>(context);
+    List<ProductModel> allProducts = productsProvider.getProducts;
     return Scaffold(
       appBar: AppBar(
         leading: const BackWidget(),
@@ -66,7 +67,9 @@ class _FeedsScreenState extends State<FeedsScreen> {
                   focusNode: _searchTextFocusNode,
                   controller: _searchTextController,
                   onChanged: (value) {
-                    setState(() {});
+                    setState(() {
+                      listProductSearch = productsProvider.serchQuery(value);
+                    });
                   },
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -100,21 +103,43 @@ class _FeedsScreenState extends State<FeedsScreen> {
                 ),
               ),
             ),
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              padding: EdgeInsets.zero,
-              // crossAxisSpacing: 10,
-              childAspectRatio: size.width / (size.height * 0.59),
-              children: List.generate(
-                allProducts.length,
-                (index) => ChangeNotifierProvider.value(
-                  value: allProducts[index],
-                  child: const FeedsWidget(),
-                ),
-              ),
-            )
+            // GridView.count(
+            //   shrinkWrap: true,
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   crossAxisCount: 2,
+            //   padding: EdgeInsets.zero,
+            //   // crossAxisSpacing: 10,
+            //   childAspectRatio: size.width / (size.height * 0.59),
+            //   children: List.generate(
+            //     allProducts.length,
+            //     (index) => ChangeNotifierProvider.value(
+            //       value: allProducts[index],
+            //       child: const FeedsWidget(),
+            //     ),
+            //   ),
+            // )
+            _searchTextController.text.isNotEmpty && listProductSearch.isEmpty
+                ? const EmptyProductsWidget(
+                    text: 'No products found, please tray anoder keyword!')
+                : GridView.count(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    padding: EdgeInsets.zero,
+                    // crossAxisSpacing: 10,
+                    childAspectRatio: size.width / (size.height * 0.59),
+                    children: List.generate(
+                      _searchTextController.text.isNotEmpty
+                          ? listProductSearch.length
+                          : allProducts.length,
+                      (index) => ChangeNotifierProvider.value(
+                        value: _searchTextController.text.isNotEmpty
+                            ? listProductSearch[index]
+                            : allProducts[index],
+                        child: const FeedsWidget(),
+                      ),
+                    ),
+                  )
           ],
         ),
       ),
