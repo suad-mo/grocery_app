@@ -304,7 +304,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               child: InkWell(
                                 onTap: isInCart
                                     ? null
-                                    : () {
+                                    : () async {
                                         // if (_isInCart) {
                                         //   return;
                                         // }
@@ -318,12 +318,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           );
                                           return;
                                         }
-                                        GlobalMethod.addToCart(
+                                        await GlobalMethod.addToCart(
                                           productId: getCurrProduct.id,
                                           quantity: int.parse(
                                               _quantityTextController.text),
                                           context: context,
                                         );
+                                        await cartProvider.fetchCart();
                                         // cartProvider.addProductsToCart(
                                         //   productId: getCurrProduct.id,
                                         //   quantity: int.parse(

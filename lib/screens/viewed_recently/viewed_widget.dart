@@ -89,7 +89,7 @@ class ViewedRecentlyWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     onTap: isInCart
                         ? null //() {}
-                        : () {
+                        : () async {
                             final User? user = authInstance.currentUser;
                             if (user == null) {
                               GlobalMethod.errorDialog(
@@ -98,11 +98,12 @@ class ViewedRecentlyWidget extends StatelessWidget {
                               );
                               return;
                             }
-                            GlobalMethod.addToCart(
+                            await GlobalMethod.addToCart(
                               productId: getCurrProduct.id,
                               quantity: 1,
                               context: context,
                             );
+                            await cartProvider.fetchCart();
                             // cartProvider.addProductsToCart(
                             //   productId: getCurrProduct.id,
                             //   quantity: 1,
