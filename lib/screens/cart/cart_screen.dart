@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/screens/cart/cart_widget.dart';
 import 'package:grocery_app/widgets/empty_screen.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
@@ -28,6 +29,7 @@ class CartScreen extends StatelessWidget {
           )
         : Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               elevation: 0,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               title: TextWidget(
@@ -80,8 +82,21 @@ class CartScreen extends StatelessWidget {
   }
 
   Widget _checkout({required BuildContext ctx}) {
+    final cartProvider = Provider.of<CartProvider>(ctx);
+    final productsProvider = Provider.of<ProductsProvider>(ctx);
     Size size = Utils(ctx).getScreenSize;
     final Color color = Utils(ctx).color;
+    double total = 0.0;
+    cartProvider.getCartItems.forEach(
+      (key, value) {
+        final getCurrentProduct =
+            productsProvider.findProdById(value.productId);
+        total += (getCurrentProduct.isOnSale
+                ? getCurrentProduct.salePrice
+                : getCurrentProduct.price) *
+            value.quantity;
+      },
+    );
     return SizedBox(
       width: double.infinity,
       height: size.height * 0.1,
@@ -110,7 +125,7 @@ class CartScreen extends StatelessWidget {
             // const Spacer(),
             FittedBox(
               child: TextWidget(
-                text: 'Total: \$0.259',
+                text: 'Total: \$${total.toStringAsFixed(2)}',
                 color: color,
                 textSize: 18,
                 isTitle: true,
