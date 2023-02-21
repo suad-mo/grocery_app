@@ -24,6 +24,7 @@ class _FetchScreenState extends State<FetchScreen> {
   List<String> images = Constss.authImagesPaths;
   @override
   void initState() {
+    // Nasumično mješanje liste
     images.shuffle();
     Future.delayed(const Duration(microseconds: 5), () async {
       final productsProvider =
