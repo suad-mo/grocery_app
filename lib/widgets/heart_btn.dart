@@ -21,7 +21,7 @@ class HeartBTN extends StatelessWidget {
     final wishlistProvider = Provider.of<WishlistProvider>(context);
     final Color color = Utils(context).color;
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         final User? user = authInstance.currentUser;
         if (user == null) {
           GlobalMethod.errorDialog(
@@ -31,7 +31,7 @@ class HeartBTN extends StatelessWidget {
           return;
         }
         // print('user id is ${user.uid}');
-        wishlistProvider.addRemoveProductToWishlist(productId: productId);
+        //  await wishlistProvider.addRemoveProductToWishlist(productId: productId);
       },
       child: Icon(
         isInWishlist ?? false ? IconlyBold.heart : IconlyLight.heart,

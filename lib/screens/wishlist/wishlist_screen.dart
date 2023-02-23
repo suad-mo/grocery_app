@@ -48,11 +48,12 @@ class WishlistScreen extends StatelessWidget {
                     GlobalMethod.warningDialog(
                       title: 'Empty your wishlist?',
                       subtitle: 'Are your sure??',
-                      fct: () {
-                        wishlistProvider.clearWishlist();
-                        if (Navigator.canPop(context)) {
-                          Navigator.pop(context);
-                        }
+                      fct: () async {
+                        await wishlistProvider.clearOnlineWishlist();
+                        wishlistProvider.clearLocalWishlist();
+                        // if (Navigator.canPop(context)) {
+                        //   Navigator.pop(context);
+                        // }
                       },
                       context: context,
                     );
