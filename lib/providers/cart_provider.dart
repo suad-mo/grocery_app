@@ -70,8 +70,28 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeOneItem(String productId) {
+  void removeOneItemA(String productId) {
     _cartItems.remove(productId);
+    notifyListeners();
+  }
+
+  Future<void> removeOneItem({
+    required String cartId,
+    required String productId,
+    required int quantity,
+  }) async {
+    final User? user = authInstance.currentUser;
+    await userCollection.doc(user!.uid).update({
+      'userCart': FieldValue.arrayRemove([
+        {
+          'cartId': cartId,
+          'productId': productId,
+          'quantity': quantity,
+        }
+      ])
+    });
+    _cartItems.remove(productId);
+    await fetchCart();
     notifyListeners();
   }
 
