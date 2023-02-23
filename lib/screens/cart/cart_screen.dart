@@ -44,11 +44,12 @@ class CartScreen extends StatelessWidget {
                     GlobalMethod.warningDialog(
                       title: 'Empty your cart',
                       subtitle: 'Are your sure??',
-                      fct: () {
-                        cartProvider.clearCart();
-                        if (Navigator.canPop(context)) {
-                          Navigator.pop(context);
-                        }
+                      fct: () async {
+                        await cartProvider.clearOnlineCart();
+                        cartProvider.clearLocalCart();
+                        // if (Navigator.canPop(context)) {
+                        //   Navigator.pop(context);
+                        // }
                       },
                       context: context,
                     );
