@@ -36,11 +36,11 @@ class _FetchScreenState extends State<FetchScreen> {
       if (user == null) {
         await productsProvider.fetchProducts();
         cartProvider.clearLocalCart();
-        // wishlistProvider.clearLocalWishlist();
+        wishlistProvider.clearLocalWishlist();
       } else {
         await productsProvider.fetchProducts();
         await cartProvider.fetchCart();
-        // await wishlistProvider.fetchWishlist();
+        await wishlistProvider.fetchWishlist();
       }
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(

@@ -146,15 +146,13 @@ class GlobalMethod {
     // notifyListeners();
   }
 
-  static Future<void> addToWishlist({
-    required String productId,
-    required BuildContext context,
-  }) async {
+  static Future<void> addToWishlist(
+      {required String productId, required BuildContext context}) async {
     final User? user = authInstance.currentUser;
-    final uid = user!.uid;
+    final _uid = user!.uid;
     final wishlistId = const Uuid().v4();
     try {
-      FirebaseFirestore.instance.collection('users').doc(uid).update({
+      FirebaseFirestore.instance.collection('users').doc(_uid).update({
         'userWish': FieldValue.arrayUnion([
           {
             'wishlistId': wishlistId,
@@ -167,8 +165,8 @@ class GlobalMethod {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
       );
-    } catch (e) {
-      errorDialog(subtitle: e.toString(), context: context);
+    } catch (error) {
+      errorDialog(subtitle: error.toString(), context: context);
     }
   }
 }
