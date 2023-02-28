@@ -52,7 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
             email: _emailTextController.text.toLowerCase().trim(),
             password: _passTextController.text.trim());
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const BottomBarScreen(),
+          builder: (context) => const FetchScreen(),
+          // builder: (context) => const BottomBarScreen(),
         ));
         print('Succefully logged in');
       } on FirebaseException catch (error) {
@@ -234,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    GoogleButton(),
+                    const GoogleButton(),
                     const SizedBox(
                       height: 10,
                     ),

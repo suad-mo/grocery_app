@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 // import 'package:grocery_app/consts/conts.dart';
 // import 'package:grocery_app/consts/firebase_consts.dart';
-import 'package:grocery_app/models/cart_model.dart';
+// import 'package:grocery_app/models/cart_model.dart';
 import 'package:grocery_app/providers/cart_provider.dart';
 import 'package:grocery_app/providers/wishlist_provider.dart';
 import 'package:grocery_app/screens/btm_bar.dart';

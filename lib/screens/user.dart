@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/consts/firebase_const.dart';
+import 'package:grocery_app/fetch_screen.dart';
 import 'package:grocery_app/screens/auth/login.dart';
 import 'package:grocery_app/screens/loading_manager.dart';
 import 'package:grocery_app/screens/orders/orders_screen.dart';
@@ -24,7 +25,8 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
-  final TextEditingController _addressTextController = TextEditingController();
+  final TextEditingController _addressTextController =
+      TextEditingController(text: '');
 
   @override
   void dispose() {
@@ -59,7 +61,7 @@ class _UserScreenState extends State<UserScreen> {
 
       final DocumentSnapshot userDoc =
           await FirebaseFirestore.instance.collection('users').doc(_uid).get();
-      if (userDoc == null) {
+      if (!userDoc.exists) {
         return;
       } else {
         _email = userDoc.get('email');
@@ -68,13 +70,10 @@ class _UserScreenState extends State<UserScreen> {
         _addressTextController.text = userDoc.get('shipping-address');
       }
     } catch (error) {
-      GlobalMethod.errorDialog(
-        subtitle: '$error',
-        context: context,
-      );
       setState(() {
         _isLoading = false;
       });
+      GlobalMethod.errorDialog(subtitle: '$error', context: context);
     } finally {
       setState(() {
         _isLoading = false;
@@ -127,7 +126,7 @@ class _UserScreenState extends State<UserScreen> {
                     height: 5,
                   ),
                   TextWidget(
-                    text: _email ?? 'email@example.com',
+                    text: _email ?? 'Email',
                     color: color,
                     textSize: 18,
                     // isTitle: true,
@@ -230,7 +229,8 @@ class _UserScreenState extends State<UserScreen> {
                           await authInstance.signOut();
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
+                              builder: (context) => const FetchScreen(),
+                              // builder: (context) => const LoginScreen(),
                             ),
                           );
                         },
